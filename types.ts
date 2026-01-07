@@ -1,67 +1,137 @@
 
-export enum ActivityType {
-  MOMENT = 'MOMENT',
-  CARPOOL = 'CARPOOL',
-  HELP = 'HELP',
-  ALERT = 'ALERT',
-  USER = 'USER'
+export enum AppTab {
+  MOI = 'MOI',
+  MAINTENANT = 'MAINTENANT',
+  MOMENTS = 'MOMENTS',
+  ENTRAIDE = 'ENTRAIDE',
+  TRAJETS = 'TRAJETS'
 }
 
-export enum ExchangeType {
-  FREE = 'FREE',
-  PRICE = 'PRICE',
-  BARTER = 'BARTER' // Troc
+export enum ServiceType {
+  MOMENTS = 'MOMENTS',
+  RIDE = 'RIDE',
+  HELP = 'HELP'
+}
+
+export type Language = 'FR' | 'EN' | 'DE' | 'IT' | 'ES';
+
+export type PaymentProvider = 'APPLE_PAY' | 'GOOGLE_PAY' | 'TWINT' | 'STRIPE' | 'PAYPAL';
+
+export type TransactionStatus = 'PENDING' | 'SUCCESS' | 'FAILED';
+
+export interface Transaction {
+  id: string;
+  amount: number;
+  currency: string;
+  provider: PaymentProvider;
+  date: string;
+  status: TransactionStatus;
+}
+
+export type Vibe = 'SILENT' | 'CHATTY' | 'MUSIC' | 'BUSINESS' | 'DATING' | 'PARTY' | 'NATURE' | 'SPORT';
+
+export interface Notification {
+  id: string;
+  type: 'ACCEPT' | 'MESSAGE' | 'INFO' | 'ALERT';
+  title: string;
+  message: string;
+  date: string;
+  read: boolean;
 }
 
 export interface User {
   id: string;
   name: string;
   avatar: string;
-  isVerified: boolean;
-  rating: number;
-  badges: string[];
-  cantonsVisited: number;
+  canton: string;
+  email?: string;
+  bio?: string;
+  badges: Badge[];
+  isSosActive?: boolean;
+  sosContacts?: string[]; // IDs
+  sosPhone?: string; 
+  isPremium?: boolean;
 }
 
-export interface MarkerItem {
+export interface Badge {
   id: string;
-  type: ActivityType;
-  title: string;
-  description: string;
-  time: string;
-  distance: string;
-  user: User;
-  x: number; // Percentage for mock map positioning (0-100)
-  y: number; // Percentage for mock map positioning (0-100)
-  participants: number;
-  maxParticipants: number;
-  
-  // NOUVEAU: Gestion financière / Troc
-  exchangeType: ExchangeType;
-  price?: number;          
-  barterRequest?: string;  // Ex: "Contre une pizza"
-  
-  createdAt: number;
-}
-
-export interface Canton {
-  id: string;
+  icon: string;
   name: string;
-  code: string;
-  status: 'visited' | 'active' | 'locked';
-  color: string;
+  description: string;
+  earned: boolean;
 }
 
-export interface Message {
+export interface Candidate {
+  user: User;
+  status: 'PENDING' | 'ACCEPTED' | 'REFUSED';
+  message?: string;
+}
+
+export interface InstantPost {
   id: string;
-  sender: string;
-  text: string;
+  user: User;
+  mainImage: string;
+  selfieImage: string;
+  postedAt: string;
+  location: string;
+  late: boolean;
+}
+
+export interface Activity {
+  id: string;
+  type: 'EVENT' | 'RIDE' | 'HELP';
+  subtype?: 'OFFER' | 'REQUEST'; 
+  title: string;
+  subtitle?: string; 
+  date: string;
   time: string;
-  isMe: boolean;
+  endTime?: string; // Fin pour events
+  arrivalTime?: string; // Arrivée pour trajets
+  
+  // Status Logic
+  myStatus?: 'ORGANIZER' | 'PARTICIPANT' | 'WAITING' | 'NONE';
+  candidates?: Candidate[]; 
+
+  // Finance
+  priceMode?: 'GRATUIT' | 'PAYANT_TWINT' | 'PAYANT_CASH' | 'TROC' | 'BUDGET';
+  priceValue?: string; 
+  currency?: string; 
+  exchangeDetails?: string;
+
+  participants: number;
+  maxParticipants?: number;
+  image?: string;
+  organizer: User;
+  description?: string;
+  category?: string;
+  
+  // Vibe / Ambiance
+  vibe?: Vibe;
+
+  // Entraide Spécifique
+  urgency?: 'NORMAL' | 'PRIORITY' | 'SOS';
+  
+  // Trajets Spécifiques
+  pickupLocation?: string; 
+  dropoffLocation?: string; 
+  vehicleModel?: string; 
+  licensePlate?: string; 
+  baggage?: boolean;
+  animals?: boolean;
+  isDriver?: boolean;
 }
 
-export interface Toast {
+export interface MapPin {
   id: string;
-  message: string;
-  type: 'success' | 'error' | 'info';
+  lat: number;
+  lng: number;
+  type: 'USER' | 'ACTIVITY';
+  data: any;
+}
+
+export interface Intention {
+  id: string;
+  label: string;
+  icon: string;
+  color: string;
 }

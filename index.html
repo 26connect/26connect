@@ -1,83 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>26Connect - La Suisse en Vrai</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            spacing: {
-              'safe-top': 'env(safe-area-inset-top)',
-              'safe-bottom': 'env(safe-area-inset-bottom)',
-            },
-            colors: {
-              swiss: {
-                red: '#FF0000',
-                darkRed: '#D90000',
-              },
-              canton: {
-                blue: '#0066CC',
-                light: '#E6F0FF',
-              },
-              alpine: {
-                green: '#2A9D8F',
-                light: '#EAF7F5',
-              },
-              dark: '#1D3557',
-              cream: '#F1FAEE',
-              alert: '#FFB703',
-            },
-            boxShadow: {
-              'up': '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)',
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      /* Hide scrollbar for clean UI */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .map-pattern {
-        background-color: #e5e5f7;
-        background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
-        background-size: 20px 20px;
-      }
-      /* Safe area padding utilities if env is not supported */
-      .pt-safe-top {
-        padding-top: max(20px, env(safe-area-inset-top));
-      }
-      .pb-safe {
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-      }
-    </style>
-  <script type="importmap">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover">
+  <title>26CONNECT</title>
+  <style>
+    html, body, #root {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    #root {
+      flex: 1;
+      overflow: hidden;
+      background-color: #f3f4f6;
+    }
+  </style>
+<script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "lucide-react-native": "https://aistudiocdn.com/lucide-react-native@^0.556.0",
+    "nativewind": "https://aistudiocdn.com/nativewind@^4.2.1",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "expo-status-bar": "https://aistudiocdn.com/expo-status-bar@^3.0.9",
+    "express": "https://aistudiocdn.com/express@^5.2.1",
+    "@prisma/client": "https://aistudiocdn.com/@prisma/client@^7.1.0",
+    "cors": "https://aistudiocdn.com/cors@^2.8.5",
+    "dotenv": "https://aistudiocdn.com/dotenv@^17.2.3",
+    "expo": "https://aistudiocdn.com/expo@^54.0.27",
+    "react-native": "https://aistudiocdn.com/react-native@^0.82.1",
+    "stripe": "https://aistudiocdn.com/stripe@^20.0.0"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-100 text-dark antialiased selection:bg-swiss-red selection:text-white overflow-hidden">
-    <div id="root" class="h-full w-full"></div>
-  <script type="module" src="/index.tsx"></script>
+<body>
+  <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
