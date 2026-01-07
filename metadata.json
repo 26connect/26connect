@@ -1,0 +1,9 @@
+{
+  "name": "26CONNECT",
+  "description": "L'application sociale suisse ultime. Connectez-vous, partagez des moments, trouvez de l'aide, faites du covoiturage et restez en sécurité.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

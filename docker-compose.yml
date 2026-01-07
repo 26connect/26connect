@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # 1. Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: 26connect_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # 2. Backend API
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://admin:password123@postgres:5432/26connect_db
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      CLIENT_URL: http://localhost:5173
+    depends_on:
+      - postgres
+    command: sh -c "npx prisma db push && npm start"
+
+  # 3. Frontend (For production simulation)
+  frontend:
+    build: ./frontend # Assuming you move current frontend files here
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
