@@ -1,156 +1,67 @@
 
-export enum AppTab {
-  MOI = 'MOI',
-  MAINTENANT = 'MAINTENANT',
-  MOMENTS = 'MOMENTS',
-  ENTRAIDE = 'ENTRAIDE',
-  TRAJETS = 'TRAJETS'
+export enum ActivityType {
+  MOMENT = 'MOMENT',
+  CARPOOL = 'CARPOOL',
+  HELP = 'HELP',
+  ALERT = 'ALERT',
+  USER = 'USER'
 }
 
-export enum ServiceType {
-  MOMENTS = 'MOMENTS',
-  RIDE = 'RIDE',
-  HELP = 'HELP'
-}
-
-export type Language = 'FR' | 'EN' | 'DE' | 'IT' | 'ES' | 'RM';
-
-export type PaymentProvider = 'APPLE_PAY' | 'GOOGLE_PAY' | 'TWINT' | 'STRIPE' | 'PAYPAL';
-
-export type TransactionStatus = 'PENDING' | 'SUCCESS' | 'FAILED';
-
-export interface Transaction {
-  id: string;
-  amount: number;
-  currency: string;
-  provider: PaymentProvider;
-  date: string;
-  status: TransactionStatus;
-}
-
-export type Vibe = 'SILENT' | 'CHATTY' | 'MUSIC' | 'BUSINESS' | 'DATING' | 'PARTY' | 'NATURE' | 'SPORT';
-
-export interface Notification {
-  id: string;
-  type: 'ACCEPT' | 'MESSAGE' | 'INFO' | 'ALERT';
-  title: string;
-  message: string;
-  date: string;
-  read: boolean;
-  targetId?: string; // ID de l'activité ou user lié
+export enum ExchangeType {
+  FREE = 'FREE',
+  PRICE = 'PRICE',
+  BARTER = 'BARTER' // Troc
 }
 
 export interface User {
   id: string;
   name: string;
   avatar: string;
-  canton: string;
-  email?: string;
-  bio?: string;
-  intention?: string; // ID of the Intention (e.g., 'i1', 'i3')
-  badges: Badge[];
-  isSosActive?: boolean;
-  sosContacts?: string[]; // IDs
-  sosPhone?: string; 
-  isPremium?: boolean;
+  isVerified: boolean;
+  rating: number;
+  badges: string[];
+  cantonsVisited: number;
 }
 
-export interface Badge {
+export interface MarkerItem {
   id: string;
-  icon: string;
-  name: string;
+  type: ActivityType;
+  title: string;
   description: string;
-  earned: boolean;
-}
-
-export interface Candidate {
+  time: string;
+  distance: string;
   user: User;
-  status: 'PENDING' | 'ACCEPTED' | 'REFUSED';
-  message?: string;
+  x: number; // Percentage for mock map positioning (0-100)
+  y: number; // Percentage for mock map positioning (0-100)
+  participants: number;
+  maxParticipants: number;
+  
+  // NOUVEAU: Gestion financière / Troc
+  exchangeType: ExchangeType;
+  price?: number;          
+  barterRequest?: string;  // Ex: "Contre une pizza"
+  
+  createdAt: number;
 }
 
-export interface InstantPost {
+export interface Canton {
   id: string;
-  user: User;
-  mainImage: string;
-  selfieImage: string;
-  postedAt: string;
-  location: string;
-  late: boolean;
-}
-
-// Support pour le chat de groupe
-export interface ChatContext {
-    id: string;
-    type: 'DIRECT' | 'GROUP';
-    title: string;
-    avatar: string;
-    participants?: string; // ex: "Alice, Bob..."
+  name: string;
+  code: string;
+  status: 'visited' | 'active' | 'locked';
+  color: string;
 }
 
 export interface Message {
-    id: number;
-    text: string;
-    senderId: string; // 'me' ou userId
-    senderName?: string;
-    timestamp: number;
-}
-
-export interface Activity {
   id: string;
-  type: 'EVENT' | 'RIDE' | 'HELP';
-  subtype?: 'OFFER' | 'REQUEST'; 
-  title: string;
-  subtitle?: string; 
-  date: string;
+  sender: string;
+  text: string;
   time: string;
-  endTime?: string; // Fin pour events
-  arrivalTime?: string; // Arrivée pour trajets
-  
-  // Status Logic
-  myStatus?: 'ORGANIZER' | 'PARTICIPANT' | 'WAITING' | 'NONE';
-  candidates?: Candidate[]; 
-
-  // Finance
-  priceMode?: 'GRATUIT' | 'PAYANT_TWINT' | 'PAYANT_CASH' | 'TROC' | 'BUDGET';
-  priceValue?: string; 
-  currency?: string; 
-  exchangeDetails?: string;
-
-  participants: number;
-  maxParticipants?: number;
-  image?: string;
-  organizer: User;
-  description?: string;
-  category?: string;
-  
-  // Vibe / Ambiance
-  vibe?: Vibe;
-
-  // Entraide Spécifique
-  urgency?: 'NORMAL' | 'PRIORITY' | 'SOS';
-  
-  // Trajets Spécifiques
-  pickupLocation?: string; 
-  dropoffLocation?: string; 
-  vehicleModel?: string; 
-  licensePlate?: string; 
-  baggage?: boolean;
-  animals?: boolean;
-  isDriver?: boolean;
+  isMe: boolean;
 }
 
-export interface MapPin {
+export interface Toast {
   id: string;
-  lat: number;
-  lng: number;
-  type: 'USER' | 'ACTIVITY';
-  data: any;
-}
-
-export interface Intention {
-  id: string;
-  label: string;
-  icon: string;
-  color: string;
+  message: string;
+  type: 'success' | 'error' | 'info';
 }
