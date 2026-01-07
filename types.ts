@@ -13,7 +13,7 @@ export enum ServiceType {
   HELP = 'HELP'
 }
 
-export type Language = 'FR' | 'EN' | 'DE' | 'IT' | 'ES';
+export type Language = 'FR' | 'EN' | 'DE' | 'IT' | 'ES' | 'RM';
 
 export type PaymentProvider = 'APPLE_PAY' | 'GOOGLE_PAY' | 'TWINT' | 'STRIPE' | 'PAYPAL';
 
@@ -37,6 +37,7 @@ export interface Notification {
   message: string;
   date: string;
   read: boolean;
+  targetId?: string; // ID de l'activité ou user lié
 }
 
 export interface User {
@@ -46,6 +47,7 @@ export interface User {
   canton: string;
   email?: string;
   bio?: string;
+  intention?: string; // ID of the Intention (e.g., 'i1', 'i3')
   badges: Badge[];
   isSosActive?: boolean;
   sosContacts?: string[]; // IDs
@@ -75,6 +77,23 @@ export interface InstantPost {
   postedAt: string;
   location: string;
   late: boolean;
+}
+
+// Support pour le chat de groupe
+export interface ChatContext {
+    id: string;
+    type: 'DIRECT' | 'GROUP';
+    title: string;
+    avatar: string;
+    participants?: string; // ex: "Alice, Bob..."
+}
+
+export interface Message {
+    id: number;
+    text: string;
+    senderId: string; // 'me' ou userId
+    senderName?: string;
+    timestamp: number;
 }
 
 export interface Activity {

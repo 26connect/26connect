@@ -1,7 +1,16 @@
-import { registerRootComponent } from 'expo';
+
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
-// registerRootComponent appelle AppRegistry.registerComponent('main', () => App);
-// Cela assure que l'environnement est correctement configuré que ce soit sur Expo Go, 
-// un build natif ou sur le Web.
-registerRootComponent(App);
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
+}
+
+const root = createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
